@@ -1,0 +1,11 @@
+lib
+packages
+*.suo
+
+*.vs
+
+.vs
+/
+.vs/config/applicationhost.config
+bin
+obj
