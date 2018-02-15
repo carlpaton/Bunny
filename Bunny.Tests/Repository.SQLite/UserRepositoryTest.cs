@@ -1,4 +1,5 @@
 ﻿using Bunny.Common;
+using Bunny.Repository.Interface;
 using Bunny.Repository.Schema;
 using Bunny.Repository.SQLite;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,24 +7,40 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bunny.Tests
 {
     [TestClass]
-    public class UserRepositoryTest
+    public class UserRepositoryTest : IUserRepository
     {
         [TestMethod]
-        public void user_select()
+        public void UserRepository_Insert()
         {
-            var cellPhone = 820000000;
-            var password = new Hash().Go("password1"); //"7C6A180B36896A0A8C02787EEAFB0E4C"
-
-            var dbModel = new UserRepository().Select(cellPhone, password);
-
-            Assert.IsTrue(dbModel.Id > 0);
+            Insert(null);
         }
 
         [TestMethod]
-        public void user_insert()
+        public void UserRepository_Select()
         {
-            var password = new Hash().Go("password1"); //"7C6A180B36896A0A8C02787EEAFB0E4C"
+            Select(820000000, "password1");
+        }
 
+        #region IUserRepository
+        public UserModel Select(long cellPhone, string password)
+        {
+            // arrange
+            var _cellPhone = cellPhone;
+            var _password = new Hash().Go(password); //"7C6A180B36896A0A8C02787EEAFB0E4C"
+
+            // act 
+            var dbModel = new UserRepository().Select(cellPhone, _password);
+
+            // assert 
+            Assert.IsTrue(dbModel.Id > 0);
+
+            return dbModel;
+        }
+
+        public int Insert(UserModel obj)
+        {
+            // arrange
+            var password = new Hash().Go("password1"); //"7C6A180B36896A0A8C02787EEAFB0E4C"
             var dbModel = new UserModel()
             {
                 CellPhone = 123456789,
@@ -33,9 +50,14 @@ namespace Bunny.Tests
                 Surname = "Surname"
             };
 
+            // act 
             var newId = new UserRepository().Insert(dbModel);
 
+            // assert 
             Assert.IsTrue(newId > 0);
+
+            return newId;
         }
+        #endregion
     }
 }

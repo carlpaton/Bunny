@@ -3,11 +3,14 @@ using Bunny.Repository.SQLite;
 
 namespace Bunny.Tests
 {
+    /// <summary>
+    /// The schema can also be stored as .sql scripts ~ this was simpler
+    /// </summary>
     [TestClass]
     public class CreateRepositoryTest
     {
         [TestMethod]
-        public void create_structure()
+        public void CreateRepository_Structure()
         {
             new DropAndCreateRepository().User();
             new DropAndCreateRepository().Restaurant();
@@ -17,7 +20,7 @@ namespace Bunny.Tests
         }
 
         [TestMethod]
-        public void seed_db()
+        public void CreateRepository_Seed()
         {
             new SeedRepository().User();
             new SeedRepository().Restaurant();
